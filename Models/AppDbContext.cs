@@ -9,5 +9,6 @@ namespace EnglishBuddy.Models
         }
 
         public DbSet<WordCard> WordCard { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
     }
 }

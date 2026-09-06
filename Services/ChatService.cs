@@ -1,5 +1,6 @@
-﻿using System.Text;
+using System.Text;
 using System.Text.Json;
+using EnglishBuddy.Models;
 
 namespace EnglishBuddy.Services
 {
@@ -14,7 +15,7 @@ namespace EnglishBuddy.Services
             _config = config;
         }
 
-        public async Task<string> GetReplyAsync(string userMessage)
+        public async Task<string> GetReplyAsync(List<ChatMessage> history)
         {
             var apiKey = _config["OpenRouter:ApiKey"];
             if (string.IsNullOrEmpty(apiKey))
@@ -24,15 +25,17 @@ namespace EnglishBuddy.Services
 
             var model = _config["OpenRouter:Model"] ?? "deepseek/deepseek-chat";
 
-            var requestBody = new
+            var messages = new List<object>
             {
-                model,
-                messages = new object[]
-               {
-                    new { role = "system", content = SystemPrompt },
-                    new { role = "user", content = userMessage }
-               }
+                new { role = "system", content = SystemPrompt }
             };
+
+            foreach (var msg in history.TakeLast(20))
+            {
+                messages.Add(new { role = msg.Role, content = msg.Content });
+            }
+
+            var requestBody = new { model, messages };
 
             var request = new HttpRequestMessage(HttpMethod.Post, "https://openrouter.ai/api/v1/chat/completions");
             request.Headers.Add("Authorization", $"Bearer {apiKey}");
@@ -40,7 +43,6 @@ namespace EnglishBuddy.Services
                 JsonSerializer.Serialize(requestBody),
                 Encoding.UTF8,
                 "application/json");
-
 
             var response = await _http.SendAsync(request);
 

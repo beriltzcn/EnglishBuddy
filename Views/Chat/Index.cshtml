@@ -1,30 +1,40 @@
-﻿@{
+@model List<EnglishBuddy.Models.ChatMessage>
+
+@{
     ViewData["Title"] = "AI Language Partner";
 }
 
 <h1 class="mb-3">AI Language Partner 💬</h1>
 
-<div class="card p-4 mb-4">
-    @if (ViewBag.UserMessage != null)
+<div class="card p-4 mb-4" id="chatBox" style="max-height:55vh;overflow-y:auto;">
+    @if (Model.Count == 0)
     {
-        <div class="alert alert-light border">
-            <strong>You:</strong> @ViewBag.UserMessage
-        </div>
-        <div class="alert alert-success d-flex justify-content-between align-items-start">
-            <div>
-                <strong>EnglishBuddy:</strong>
-                <span id="aiReplyText">@ViewBag.Reply</span>
-            </div>
-            <button type="button" class="btn btn-sm btn-light"
-                    title="Listen"
-                    onclick="speakWord(document.getElementById('aiReplyText').textContent)">
-                🔊
-            </button>
-        </div>
+        <p class="text-muted text-center">Write or speak something in English to start practicing!</p>
     }
     else
     {
-        <p class="text-muted">Write or speak something in English and I will reply, correct your mistakes and help you practice!</p>
+        @foreach (var msg in Model)
+        {
+            if (msg.Role == "user")
+            {
+                <div class="d-flex justify-content-end mb-2">
+                    <div class="p-3 rounded-4" style="max-width:75%;background:#e9d5ff;">
+                        @msg.Content
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex justify-content-start mb-2">
+                    <div class="p-3 rounded-4" style="max-width:75%;background:#f1f5f9;">
+                        <span class="msg-text">@msg.Content</span>
+                        <button type="button" class="btn btn-sm btn-light mt-1"
+                                title="Listen"
+                                onclick="speakWord(this.parentElement.querySelector('.msg-text').textContent)">🔊</button>
+                    </div>
+                </div>
+            }
+        }
     }
 </div>
 
@@ -37,33 +47,31 @@
 </form>
 
 <script>
-    var micBtn = document.getElementById("micBtn");
+    var chatBox = document.getElementById("chatBox");
+    if (chatBox) {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
 
+    var micBtn = document.getElementById("micBtn");
     if (micBtn) {
         micBtn.addEventListener("click", function () {
-
             var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
             if (!SpeechRecognition) {
                 alert("Voice input needs Chrome or Edge.");
                 return;
             }
-
             var recognition = new SpeechRecognition();
             recognition.lang = "en-US";
             recognition.interimResults = false;
-
             recognition.onresult = function (event) {
                 var text = event.results[0][0].transcript;
                 var input = document.querySelector('input[name="message"]');
                 input.value = text;
-                input.form.submit();   // konusulan metni otomatik AI'a gonder
+                input.form.submit();
             };
-
             recognition.onerror = function () {
                 alert("Could not hear you. Check the microphone permission.");
             };
-
             recognition.start();
         });
     }
