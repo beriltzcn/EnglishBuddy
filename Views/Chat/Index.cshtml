@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "AI Language Partner";
+}
+
+<h1 class="mb-3">AI Language Partner 💬</h1>
+
+<div class="card p-4 mb-4">
+    @if (ViewBag.UserMessage != null)
+    {
+        <div class="alert alert-light border">
+            <strong>You:</strong> @ViewBag.UserMessage
+        </div>
+        <div class="alert alert-success d-flex justify-content-between align-items-start">
+            <div>
+                <strong>EnglishBuddy:</strong>
+                <span id="aiReplyText">@ViewBag.Reply</span>
+            </div>
+            <button type="button" class="btn btn-sm btn-light"
+                    title="Listen"
+                    onclick="speakWord(document.getElementById('aiReplyText').textContent)">
+                🔊
+            </button>
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">Write or speak something in English and I will reply, correct your mistakes and help you practice!</p>
+    }
+</div>
+
+<form asp-action="Send" method="post">
+    <div class="input-group">
+        <button type="button" id="micBtn" class="btn btn-outline-primary" title="Speak (English)">🎤</button>
+        <input type="text" name="message" class="form-control" placeholder="Type in English..." autofocus />
+        <button type="submit" class="btn btn-primary">Send 💬</button>
+    </div>
+</form>
+
+<script>
+    var micBtn = document.getElementById("micBtn");
+
+    if (micBtn) {
+        micBtn.addEventListener("click", function () {
+
+            var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+            if (!SpeechRecognition) {
+                alert("Voice input needs Chrome or Edge.");
+                return;
+            }
+
+            var recognition = new SpeechRecognition();
+            recognition.lang = "en-US";
+            recognition.interimResults = false;
+
+            recognition.onresult = function (event) {
+                var text = event.results[0][0].transcript;
+                var input = document.querySelector('input[name="message"]');
+                input.value = text;
+                input.form.submit();   // konusulan metni otomatik AI'a gonder
+            };
+
+            recognition.onerror = function () {
+                alert("Could not hear you. Check the microphone permission.");
+            };
+
+            recognition.start();
+        });
+    }
+</script>

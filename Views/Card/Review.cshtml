@@ -1,0 +1,50 @@
+﻿@model EnglishBuddy.Models.WordCard
+
+@{
+    ViewData["Title"] = "Review";
+}
+
+<h1>Review</h1>
+
+@if (Model == null)
+{
+    <p class="text-muted">No words yet. Add some words first!</p>
+    <a asp-action="Create" class="btn btn-primary">+ Add Word</a>
+}
+else
+{
+    <div class="card text-center p-4" style="max-width:500px;margin:0 auto;">
+        <div class="d-flex align-items-center justify-content-center gap-3">
+            <h2 class="mb-0" style="cursor:pointer" title="Click to listen"
+                onclick="speakWord('@Model.Word')">
+                @Model.Word
+            </h2>
+            <button type="button" class="btn btn-light btn-lg shadow-sm"
+                    onclick="speakWord('@Model.Word')">
+                🔊
+            </button>
+        </div>
+
+        <button type="button" id="showMeaning" class="btn btn-outline-secondary mt-2">Show meaning</button>
+        <p id="meaning" class="mt-3 fs-5 fw-bold" style="display:none">@Model.Meaning</p>
+        <p class="text-muted fst-italic">@Model.ExampleSentence</p>
+
+        <div class="mt-3">
+            <form method="post" asp-action="Unknown" class="d-inline">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="btn btn-danger">I don't know</button>
+            </form>
+            <form method="post" asp-action="Known" class="d-inline">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="btn btn-success">I know it</button>
+            </form>
+        </div>
+    </div>
+}
+
+<script>
+    document.getElementById("showMeaning")?.addEventListener("click", function () {
+        var meaning = document.getElementById("meaning");
+        meaning.style.display = meaning.style.display === "none" ? "block" : "none";
+    });
+</script>

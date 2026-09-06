@@ -1,0 +1,199 @@
+:root {
+    --brand: #7c3aed;
+    --brand-dark: #6d28d9;
+    --brand-soft: #ede9fe;
+    --pink: #ec4899;
+    --amber: #f59e0b;
+    --success: #10b981;
+    --danger: #ef4444;
+    --ink: #312e50;
+    --muted: #7a7596;
+}
+
+html { font-size: 14px; }
+@media (min-width: 768px) { html { font-size: 16px; } }
+
+html { position: relative; min-height: 100%; }
+
+body {
+    background: linear-gradient(160deg, #eef2ff 0%, #fdf2f8 45%, #fffbeb 100%);
+    background-attachment: fixed;
+    font-family: "Nunito", "Segoe UI", system-ui, sans-serif;
+    color: var(--ink);
+    margin-bottom: 60px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+}
+
+/* ---------- NAVBAR ---------- */
+
+.fd-nav {
+    background: rgba(255, 255, 255, 0.85);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(124, 58, 237, 0.12);
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+}
+
+.fd-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
+    font-weight: 900;
+    text-decoration: none;
+    color: var(--ink);
+}
+
+.fd-brand-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 6px 14px -6px rgba(139, 92, 246, 0.6);
+}
+
+.fd-brand:hover { color: var(--ink); }
+
+.fd-brand em {
+    font-style: normal;
+    background: linear-gradient(90deg, #7c3aed, #ec4899);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.fd-links .nav-link {
+    font-weight: 700;
+    color: #5b5676;
+    border-radius: 999px;
+    padding: 0.45rem 1rem !important;
+    transition: all 0.15s ease;
+}
+
+.fd-links .nav-link:hover {
+    color: var(--brand);
+    background: var(--brand-soft);
+}
+
+/* ---------- BUTTONS ---------- */
+
+.btn {
+    border-radius: 999px !important;
+    font-weight: 800;
+    padding: 0.55rem 1.3rem;
+}
+
+.btn-primary {
+    background: var(--brand);
+    border-color: var(--brand);
+}
+
+.btn-primary:hover {
+    background: var(--brand-dark);
+    border-color: var(--brand-dark);
+    transform: translateY(-1px);
+}
+
+.btn-success {
+    background: var(--success);
+    border: none;
+    color: #fff;
+}
+
+.btn-success:hover { background: #0d9a6e; color: #fff; }
+
+.btn-danger {
+    background: var(--danger);
+    border: none;
+    color: #fff;
+}
+
+.btn-danger:hover { background: #dc2626; color: #fff; }
+
+.btn-outline-secondary {
+    color: var(--brand);
+    border-color: #c4b5fd;
+    background: #fff;
+}
+
+.btn-outline-secondary:hover {
+    background: var(--brand-soft);
+    color: var(--brand-dark);
+    border-color: #a78bfa;
+}
+
+/* ---------- CARDS / FLASHCARD ---------- */
+
+.card {
+    border: none;
+    border-radius: 24px;
+    box-shadow: 0 18px 40px -18px rgba(76, 29, 149, 0.25);
+}
+
+.card h2 {
+    font-size: 2.6rem;
+    font-weight: 900;
+    background: linear-gradient(90deg, #7c3aed, #ec4899, #f59e0b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+#meaning {
+    color: var(--brand-dark);
+    font-size: 1.5rem;
+}
+
+/* ---------- TABLES ---------- */
+
+.table thead th {
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    border-bottom: 2px solid #e9d5ff;
+}
+
+.table td {
+    border-color: #f3e8ff;
+    vertical-align: middle;
+}
+
+.table-hover tbody tr:hover { background: #faf5ff; }
+
+/* ---------- FORMS ---------- */
+
+.form-control, .form-select {
+    border-radius: 14px !important;
+    border: 2px solid #e9d5ff;
+    padding: 0.6rem 1rem;
+}
+
+.form-control:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 0.25rem rgba(124, 58, 237, 0.15);
+}
+
+/* ---------- FOOTER ---------- */
+
+.fd-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    background: rgba(255, 255, 255, 0.7);
+}

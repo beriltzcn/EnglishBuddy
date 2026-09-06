@@ -1,0 +1,29 @@
+@model EnglishBuddy.Models.WordCard
+
+@{
+    ViewData["Title"] = "Add Word";
+}
+
+<h1>Add Word</h1>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label class="form-label">Word (English)</label>
+        <input asp-for="Word" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Meaning (Turkish)</label>
+        <input asp-for="Meaning" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Example sentence</label>
+        <input asp-for="ExampleSentence" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
